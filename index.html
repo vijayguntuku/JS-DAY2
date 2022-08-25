@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 10px;
+        }
+
+        .full {
+            margin: 0px;
+            height: 300px;
+            background-size: cover;
+            opacity: 0.3;
+            position: relative;
+        }
+
+        .fullcontent {
+            position:absolute;
+            top: 20px;
+            left: 100px;
+            color:black;
+            font-family: 'Times New Roman', Times, serif;
+            text-transform: uppercase;
+            padding: 50px;
+        }
+
+        .employees {
+            display:block;
+            align-items: center;
+            grid-template-columns: auto auto auto;
+            row-gap: 50px;
+            background-color: lightgreen;
+            padding: 50px 100px;
+            padding-left: 500px;
+        }
+
+        .empdata {
+            height: 300px;
+            width: 200px;
+            background-color: white;
+            border-radius: 15px;
+        }
+
+        .empdata:hover {
+            box-shadow: 5px 5px 5px 5px rgb(77, 80, 73);
+
+        }
+
+        .empimage {
+            height: 100px;
+            width: 100px;
+            margin: 30px;
+            border-radius: 20px;
+            border: 1px dashed white;
+        }
+
+        .empitem {
+            list-style-type: none;
+            font-size: 15px;
+            font-weight: 100;
+            font-family: 'Times New Roman', Times, serif;
+            color: rgb(51, 48, 48)
+        }
+
+        .details {
+            padding: 10px;
+            background-color: rgb(221, 239, 255);
+            border-radius: 5px;
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        .details:hover {
+            background-color: rgb(165, 206, 241);
+            box-shadow: 3px 3px 3px 3px rgb(177, 166, 166);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="full">
+    </div>
+    <div class="fullcontent">
+        <h1>Pramati Solutions</h1>
+        <h2>Employe Details</h2>
+
+    </div>
+    <script>
+        let divemployees = document.createElement("div");
+        divemployees.className = "employees";
+        let divemp = document.createElement("div");
+        divemp.className = "employee";
+        let empimg = document.createElement("img");
+        empimg.className = "empimage";
+        let emplist = document.createElement("ul");
+        emplist.className = "empdata";
+        let dataitem = document.createElement("li");
+        dataitem.className = "empitem";
+        let btn = document.createElement("button");
+        btn.className = "details";
+        btn.innerHTML = "View profile";
+        document.body.appendChild(divemployees);
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            let res = JSON.parse(this.responseText);
+            for (let i = 0; i < (res.data).length; i++) {
+                emplist = document.createElement("ul");
+                emplist.className = "empdata";
+                empimg = document.createElement("img");
+                empimg.className = "empimage";
+                empimg.src = res.data[i]['avatar'];
+                emplist.appendChild(empimg);
+                dataitem = document.createElement("li");
+                dataitem.className = "empitem";
+                dataitem.innerHTML = "Employee ID: " + res.data[i]['id'];
+                emplist.appendChild(dataitem);
+                dataitem = document.createElement("li");
+                dataitem.className = "empitem";
+                dataitem.innerHTML = res.data[i]['first_name'] + ' ' + res.data[i]['last_name'];
+                emplist.appendChild(dataitem);
+                dataitem = document.createElement("li");
+                dataitem.className = "empitem";
+                dataitem.innerHTML = res.data[i]['email'];
+                emplist.appendChild(dataitem);
+                btn = document.createElement("button");
+                btn.className = "details";
+                btn.innerHTML = "View Profile";
+                emplist.appendChild(btn);
+                divemp = document.createElement("div");
+                divemp.className = "employee";
+                divemp.appendChild(emplist);
+                divemployees.appendChild(divemp);
+            }
+        }
+        xhttp.open("GET", " https://reqres.in/api/users?page=1");
+        xhttp.send();
+    </script>
+</body>
+
+</html>
